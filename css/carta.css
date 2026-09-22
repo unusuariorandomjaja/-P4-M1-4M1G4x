@@ -1,0 +1,565 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+
+    background: #fff4f7;
+    color: #51383d;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    overflow-x: hidden;
+}
+
+
+/* ==========================================
+   PÉTALOS QUE ESTÁN CAYENDO
+   ========================================== */
+
+#petalos {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+
+    overflow: hidden;
+
+    z-index: 9999;
+}
+
+
+/* ==========================================
+   PÉTALO
+   ========================================== */
+
+.petalo {
+    position: absolute;
+
+    top: -40px;
+
+    width: 12px;
+    height: 18px;
+
+    background: #ffd21f;
+
+    border-radius: 70% 30% 70% 30%;
+
+    opacity: 0.95;
+
+    animation-name: caerPetalo;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+
+/* ==========================================
+   ANIMACIÓN DE CAÍDA
+   ========================================== */
+
+@keyframes caerPetalo {
+
+    0% {
+        transform:
+            translate3d(0, -50px, 0)
+            rotate(0deg);
+
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.95;
+    }
+
+    25% {
+        transform:
+            translate3d(50px, 25vh, 0)
+            rotate(120deg);
+    }
+
+    50% {
+        transform:
+            translate3d(-50px, 50vh, 0)
+            rotate(240deg);
+    }
+
+    75% {
+        transform:
+            translate3d(45px, 75vh, 0)
+            rotate(300deg);
+    }
+
+    100% {
+        transform:
+            translate3d(-30px, 110vh, 0)
+            rotate(360deg);
+
+        opacity: 1;
+    }
+}
+
+
+/* ==========================================
+   PÉTALOS ACUMULADOS
+   ========================================== */
+
+#petalosAcumulados {
+    position: fixed;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 38vh;
+
+    pointer-events: none;
+
+    overflow: hidden;
+
+    z-index: 9998;
+}
+
+
+/* ==========================================
+   PÉTALO ACUMULADO
+   ========================================== */
+
+.petaloAcumulado {
+    position: absolute;
+
+    background: #ffd21f;
+
+    border-radius: 70% 30% 70% 30%;
+
+    opacity: 0.96;
+
+    transform-origin: center center;
+
+    margin-left: -5px;
+    margin-bottom: -2px;
+}
+
+
+/* ==========================================
+   TÍTULO
+   ========================================== */
+
+h1 {
+    margin: 40px 0 25px;
+
+    text-align: center;
+
+    font-size: 55px;
+
+    color: #51383d;
+}
+
+
+/* ==========================================
+   BOTÓN ABRIR
+   ========================================== */
+
+#abrirCarta {
+    display: block;
+
+    margin: 0 auto;
+
+    padding: 15px 40px;
+
+    border: none;
+
+    border-radius: 40px;
+
+    background: #df4f67;
+    color: white;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 28px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.15);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#abrirCarta:hover {
+    transform: scale(1.05);
+}
+
+#abrirCarta:active {
+    transform: scale(0.97);
+}
+
+
+/* ==========================================
+   GATOS LATERALES
+   ========================================== */
+
+#gatosLaterales {
+    display: block;
+}
+
+#gatosLaterales img {
+    position: fixed !important;
+
+    width: 140px !important;
+    height: auto !important;
+
+    z-index: 100 !important;
+
+    pointer-events: none;
+
+    display: block;
+}
+
+
+/* GATO 1 */
+
+.gato1 {
+    left: 5px !important;
+    top: 20% !important;
+}
+
+
+/* GATO 2 */
+
+.gato2 {
+    left: 5px !important;
+    top: 65% !important;
+}
+
+
+/* GATO 3 */
+
+.gato3 {
+    right: 5px !important;
+    top: 20% !important;
+}
+
+
+/* GATO 4 */
+
+.gato4 {
+    right: 5px !important;
+    top: 65% !important;
+}
+
+
+/* ==========================================
+   CONTENIDO DE LA CARTA
+   ========================================== */
+
+#contenidoCarta {
+    display: none;
+
+    width: 100%;
+    max-width: 850px;
+
+    margin: 45px auto 0;
+
+    padding: 20px;
+
+    animation: aparecer 0.6s ease;
+}
+
+
+/* ==========================================
+   CARTA
+   ========================================== */
+
+.carta {
+    position: relative;
+
+    width: 100%;
+
+    padding: 45px 40px 25px;
+
+    background: #fffdfd;
+
+    border: 2px solid #e6b7c0;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.carta h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+
+    text-align: center;
+
+    font-size: 32px;
+
+    color: #d94761;
+}
+
+.carta p {
+    margin-bottom: 20px;
+
+    font-size: 21px;
+
+    line-height: 1.7;
+}
+
+
+/* ==========================================
+   3 GATOS DENTRO DE LA CARTA
+   ========================================== */
+
+.gatosCarta {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: flex-end;
+
+    gap: 10px;
+
+    margin-top: 30px;
+
+    overflow: visible;
+}
+
+.gatosCarta img {
+    width: 150px;
+
+    max-width: 32%;
+
+    height: auto;
+
+    object-fit: contain;
+}
+
+
+/* ==========================================
+   ⭐ GATO DE LAS ROSAS
+   ========================================== */
+
+/*
+   IMPORTANTE:
+   scale() lo agranda visualmente sin cambiar
+   el espacio que ocupa dentro del flex.
+
+   Por eso los otros dos gatos no se desplazan.
+*/
+
+.gatosCarta img:first-child {
+    width: 150px;
+
+    max-width: 32%;
+
+    transform: scale(1.8);
+
+    transform-origin: center bottom;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* ==========================================
+   GRUPO DE GATOS
+   ========================================== */
+
+.grupoRock {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    margin-top: 25px;
+
+    margin-bottom: 50px;
+}
+
+.grupoRock img {
+    width: 300px;
+
+    max-width: 90%;
+
+    height: auto;
+}
+
+
+/* ==========================================
+   ANIMACIÓN DE LA CARTA
+   ========================================== */
+
+@keyframes aparecer {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* ==========================================
+   CELULARES
+   ========================================== */
+
+@media (max-width: 600px) {
+
+    h1 {
+        margin-top: 35px;
+
+        font-size: 44px;
+    }
+
+
+    #abrirCarta {
+        padding: 14px 32px;
+
+        font-size: 24px;
+    }
+
+
+    /* ======================================
+       GATOS LATERALES
+       ====================================== */
+
+    #gatosLaterales img {
+        width: 140px !important;
+    }
+
+    .gato1 {
+        left: -40px !important;
+        top: 0% !important;
+    }
+
+    .gato2 {
+        left: -22px !important;
+        top: 15% !important;
+    }
+
+    .gato3 {
+        right: -22px !important;
+        top: 0% !important;
+    }
+
+    .gato4 {
+        right: -10px !important;
+        top: 18% !important;
+    }
+
+
+    /* ======================================
+       CONTENIDO
+       ====================================== */
+
+    #contenidoCarta {
+        padding: 12px;
+
+        margin-top: 30px;
+    }
+
+
+    /* ======================================
+       CARTA
+       ====================================== */
+
+    .carta {
+        padding: 30px 20px 20px;
+    }
+
+    .carta h2 {
+        font-size: 27px;
+    }
+
+    .carta p {
+        font-size: 18px;
+
+        line-height: 1.6;
+    }
+
+
+    /* ======================================
+       GATOS DE LA CARTA
+       ====================================== */
+
+    .gatosCarta {
+        gap: 3px;
+
+        margin-top: 20px;
+
+        overflow: visible;
+    }
+
+    .gatosCarta img {
+        width: 105px;
+
+        max-width: 33%;
+    }
+
+
+    /* ======================================
+       ⭐ GATO DE LAS ROSAS EN CELULAR
+       ====================================== */
+
+    .gatosCarta img:first-child {
+        width: 95px;
+
+        max-width: 33%;
+
+        transform: scale(1.8);
+
+        transform-origin: center bottom;
+
+        position: relative;
+
+        z-index: 2;
+    }
+
+
+    /* ======================================
+       GRUPO
+       ====================================== */
+
+    .grupoRock img {
+        width: 270px;
+
+        max-width: 90%;
+    }
+
+
+    /* ======================================
+       ACUMULACIÓN
+       ====================================== */
+
+    #petalosAcumulados {
+        height: 32vh;
+    }
+}
