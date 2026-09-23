@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+    /* ==================================================
+       ELEMENTOS
+    ================================================== */
+
     const boton =
         document.getElementById("abrirCarta");
 
@@ -9,30 +13,42 @@ document.addEventListener("DOMContentLoaded", function () {
     const gatosLaterales =
         document.getElementById("gatosLaterales");
 
+    const finalArbol =
+        document.getElementById("finalArbol");
+
+    const hojasArbol =
+        document.getElementById("hojasArbol");
+
     const contenedorPetalos =
         document.getElementById("petalos");
 
     const contenedorPetalosAcumulados =
-        document.getElementById("petalosAcumulados");
+        document.getElementById(
+            "petalosAcumulados"
+        );
 
 
-    // ==========================================
-    // VARIABLES
-    // ==========================================
+    /* ==================================================
+       ESTADO
+    ================================================== */
+
+    let estado = "inicio";
+
+
+    /* ==================================================
+       LLUVIA DE PETALOS
+    ================================================== */
 
     let lluviaActiva = false;
 
     let intervaloPetalos = null;
 
-    let cantidadAcumulados = 0;
-
-    // 40 zonas para repartir los pétalos
     let alturasPila = [];
 
 
-    // ==========================================
-    // CREAR UN PÉTALO QUE CAE
-    // ==========================================
+    /* ==================================================
+       CREAR PETALO
+    ================================================== */
 
     function crearPetalo() {
 
@@ -44,67 +60,50 @@ document.addEventListener("DOMContentLoaded", function () {
         const petalo =
             document.createElement("div");
 
+
         petalo.classList.add("petalo");
 
 
-        // ======================================
-        // POSICIÓN HORIZONTAL
-        // ======================================
+        /* Posicion horizontal */
 
         petalo.style.left =
             Math.random() * 100 + "%";
 
 
-        // ======================================
-        // TAMAÑO
-        // ======================================
+        /* Tamaño */
 
         const tamaño =
             8 + Math.random() * 9;
 
+
         petalo.style.width =
             tamaño + "px";
+
 
         petalo.style.height =
             tamaño * 1.35 + "px";
 
 
-        // ======================================
-        // VELOCIDAD
-        // ======================================
+        /* Velocidad */
 
         petalo.style.animationDuration =
             (3 + Math.random() * 2) + "s";
 
 
-        // ======================================
-        // PEQUEÑO RETRASO
-        // ======================================
-
-        petalo.style.animationDelay =
-            (Math.random() * 0.8) + "s";
-
-
-        // ======================================
-        // ROTACIÓN
-        // ======================================
+        /* Rotacion */
 
         petalo.style.transform =
             "rotate(" +
             Math.random() * 360 +
-            "deg";
+            "deg)";
 
 
-        // ======================================
-        // AÑADIR
-        // ======================================
-
-        contenedorPetalos.appendChild(petalo);
+        contenedorPetalos.appendChild(
+            petalo
+        );
 
 
-        // ======================================
-        // CUANDO LLEGA AL SUELO
-        // ======================================
+        /* Cuando llega abajo */
 
         petalo.addEventListener(
             "animationend",
@@ -118,30 +117,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                // Crear el pétalo que se queda abajo
+                /* Crear petalo acumulado */
 
                 const acumulado =
                     document.createElement("div");
+
 
                 acumulado.classList.add(
                     "petaloAcumulado"
                 );
 
 
-                // ==================================
-                // TAMAÑO
-                // ==================================
-
                 acumulado.style.width =
                     petalo.style.width;
+
 
                 acumulado.style.height =
                     petalo.style.height;
 
 
-                // ==================================
-                // ELEGIR UNA ZONA
-                // ==================================
+                /* Columnas */
 
                 const numeroColumnas =
                     window.innerWidth <= 600
@@ -156,20 +151,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                // ==================================
-                // POSICIÓN HORIZONTAL
-                // ==================================
-
                 const anchoColumna =
                     100 / numeroColumnas;
 
 
                 const posicionBase =
-                    columna * anchoColumna;
+                    columna *
+                    anchoColumna;
 
-
-                // Variación pequeña
-                // para que no parezcan columnas
 
                 const variacion =
                     Math.random() *
@@ -177,49 +166,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 acumulado.style.left =
-                    (posicionBase + variacion) + "%";
+                    (
+                        posicionBase +
+                        variacion
+                    ) + "%";
 
 
-                // ==================================
-                // INICIALIZAR ALTURA
-                // ==================================
+                /* Crear columna */
 
                 if (
-                    alturasPila[columna] === undefined
+                    alturasPila[columna] ===
+                    undefined
                 ) {
 
                     alturasPila[columna] = 0;
                 }
 
 
-                // ==================================
-                // ALTURA ACTUAL
-                // ==================================
+                /* Altura */
 
                 const alturaActual =
                     alturasPila[columna];
 
 
-                // ==================================
-                // COLOCAR SOBRE LOS ANTERIORES
-                // ==================================
-
                 acumulado.style.bottom =
                     alturaActual + "px";
 
-
-                // ==================================
-                // AUMENTAR LA PILA
-                // ==================================
 
                 const alturaPetalo =
                     parseFloat(
                         petalo.style.height
                     );
 
-
-                // Solapamiento ligero
-                // para evitar huecos
 
                 const aumento =
                     alturaPetalo * 0.55;
@@ -229,58 +207,55 @@ document.addEventListener("DOMContentLoaded", function () {
                     aumento;
 
 
-                // ==================================
-                // ROTACIÓN
-                // ==================================
+                /* Rotacion */
 
                 acumulado.style.transform =
                     "rotate(" +
-                    (-35 + Math.random() * 70) +
+                    (
+                        -35 +
+                        Math.random() * 70
+                    ) +
                     "deg)";
 
 
-                // ==================================
-                // AÑADIR A LA PILA
-                // ==================================
+                /* Agregar */
 
-                contenedorPetalosAcumulados.appendChild(
-                    acumulado
-                );
+                contenedorPetalosAcumulados
+                    .appendChild(
+                        acumulado
+                    );
 
-
-                cantidadAcumulados++;
-
-
-                // ==================================
-                // ELIMINAR EL PÉTALO QUE CAE
-                // ==================================
 
                 petalo.remove();
 
             }
         );
-
     }
 
 
-    // ==========================================
-    // INICIAR LLUVIA
-    // ==========================================
+    /* ==================================================
+       INICIAR LLUVIA
+    ================================================== */
 
     function iniciarLluvia() {
 
-        lluviaActiva = true;
+        if (lluviaActiva) {
+            return;
+        }
 
-        cantidadAcumulados = 0;
+
+        lluviaActiva = true;
 
         alturasPila = [];
 
 
-        // ======================================
-        // PRIMEROS PÉTALOS
-        // ======================================
+        /* Primera tanda */
 
-        for (let i = 0; i < 35; i++) {
+        for (
+            let i = 0;
+            i < 35;
+            i++
+        ) {
 
             setTimeout(
                 function () {
@@ -290,13 +265,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 i * 100
             );
-
         }
 
 
-        // ======================================
-        // LLUVIA CONTINUA
-        // ======================================
+        /* Lluvia infinita */
 
         intervaloPetalos =
             setInterval(
@@ -307,13 +279,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 180
             );
-
     }
 
 
-    // ==========================================
-    // DETENER LLUVIA
-    // ==========================================
+    /* ==================================================
+       DETENER LLUVIA
+    ================================================== */
 
     function detenerLluvia() {
 
@@ -332,114 +303,314 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        // ======================================
-        // BORRAR PÉTALOS QUE CAEN
-        // ======================================
-
-        contenedorPetalos.innerHTML = "";
-
-
-        // ======================================
-        // BORRAR PÉTALOS ACUMULADOS
-        // ======================================
-
-        contenedorPetalosAcumulados.innerHTML =
+        contenedorPetalos.innerHTML =
             "";
 
 
-        // ======================================
-        // REINICIAR
-        // ======================================
+        contenedorPetalosAcumulados
+            .innerHTML = "";
 
-        cantidadAcumulados = 0;
 
         alturasPila = [];
-
     }
 
 
-    // ==========================================
-    // BOTÓN
-    // ==========================================
+    /* ==================================================
+       CREAR ARBOL
+    ================================================== */
+
+    function crearArbol() {
+
+        hojasArbol.innerHTML = "";
+
+
+        /* 1500 PETALOS */
+
+        const cantidadHojas = 1500;
+
+
+        for (
+            let i = 0;
+            i < cantidadHojas;
+            i++
+        ) {
+
+            const hoja =
+                document.createElement("div");
+
+
+            hoja.classList.add("hoja");
+
+
+            /* Tamaño */
+
+            const tamaño =
+                9 + Math.random() * 12;
+
+
+            hoja.style.width =
+                tamaño + "px";
+
+
+            hoja.style.height =
+                tamaño + "px";
+
+
+            /* Forma del arbol */
+
+            const centroX = 50;
+
+            const centroY = 30;
+
+            const radioX = 44;
+
+            const radioY = 28;
+
+
+            const angulo =
+                Math.random() *
+                Math.PI *
+                2;
+
+
+            const distancia =
+                Math.sqrt(
+                    Math.random()
+                );
+
+
+            let x =
+                centroX +
+                Math.cos(angulo) *
+                radioX *
+                distancia;
+
+
+            let y =
+                centroY +
+                Math.sin(angulo) *
+                radioY *
+                distancia;
+
+
+            /* Parte inferior mas llena */
+
+            if (
+                Math.random() < 0.35
+            ) {
+
+                y =
+                    30 +
+                    Math.random() * 22;
+            }
+
+
+            /* Variacion */
+
+            x +=
+                (
+                    Math.random() -
+                    0.5
+                ) * 5;
+
+
+            y +=
+                (
+                    Math.random() -
+                    0.5
+                ) * 5;
+
+
+            hoja.style.left =
+                x + "%";
+
+
+            hoja.style.top =
+                y + "%";
+
+
+            hoja.style.transform =
+                "rotate(" +
+                Math.random() * 360 +
+                "deg)";
+
+
+            hoja.style.animationDelay =
+                (
+                    Math.random() * 1.5
+                ) + "s";
+
+
+            hojasArbol.appendChild(
+                hoja
+            );
+        }
+    }
+
+
+    /* ==================================================
+       ABRIR CARTA
+    ================================================== */
+
+    function abrirCarta() {
+
+        estado = "carta";
+
+
+        gatosLaterales.style.display =
+            "none";
+
+
+        contenidoCarta.style.display =
+            "block";
+
+
+        boton.innerHTML =
+            "No cerrar jaja";
+
+
+        /* Iniciar petalos */
+
+        iniciarLluvia();
+
+
+        setTimeout(
+            function () {
+
+                contenidoCarta.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            },
+            100
+        );
+    }
+
+
+    /* ==================================================
+       CERRAR CARTA
+    ================================================== */
+
+    function cerrarCarta() {
+
+        estado = "cerrada";
+
+
+        contenidoCarta.style.display =
+            "none";
+
+
+        gatosLaterales.style.display =
+            "block";
+
+
+        boton.innerHTML =
+            "Pa q cierras ya no abras😂";
+
+
+        /* Detener petalos */
+
+        detenerLluvia();
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+
+    /* ==================================================
+       MOSTRAR ARBOL
+    ================================================== */
+
+    function mostrarArbol() {
+
+        estado = "arbol";
+
+
+        /* Detener lluvia */
+
+        detenerLluvia();
+
+
+        contenidoCarta.style.display =
+            "none";
+
+
+        gatosLaterales.style.display =
+            "none";
+
+
+        boton.style.display =
+            "none";
+
+
+        finalArbol.style.display =
+            "block";
+
+
+        /* Crear 1500 petalos */
+
+        crearArbol();
+
+
+        setTimeout(
+            function () {
+
+                finalArbol.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            },
+            150
+        );
+    }
+
+
+    /* ==================================================
+       BOTON
+    ================================================== */
 
     boton.addEventListener(
         "click",
         function () {
 
-            const estaAbierta =
-                contenidoCarta.style.display ===
-                "block";
+            /* Primer clic */
 
+            if (
+                estado === "inicio"
+            ) {
 
-            // ==================================
-            // ABRIR CARTA
-            // ==================================
+                abrirCarta();
 
-            if (!estaAbierta) {
-
-                contenidoCarta.style.display =
-                    "block";
-
-                gatosLaterales.style.display =
-                    "none";
-
-                boton.innerHTML =
-                    "No cerrar jaja";
-
-
-                // Iniciar pétalos
-
-                iniciarLluvia();
-
-
-                // Bajar hacia la carta
-
-                setTimeout(
-                    function () {
-
-                        contenidoCarta.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start"
-                        });
-
-                    },
-                    100
-                );
-
+                return;
             }
 
 
-            // ==================================
-            // CERRAR CARTA
-            // ==================================
+            /* Segundo clic */
 
-            else {
+            if (
+                estado === "carta"
+            ) {
 
-                contenidoCarta.style.display =
-                    "none";
+                cerrarCarta();
 
-                gatosLaterales.style.display =
-                    "block";
-
-                boton.innerHTML =
-                    "Pa q cierras ya no abras😂";
+                return;
+            }
 
 
-                // Detener y limpiar todo
+            /* Tercer clic */
 
-                detenerLluvia();
+            if (
+                estado === "cerrada"
+            ) {
 
+                mostrarArbol();
 
-                // Volver arriba
-
-                window.scrollTo({
-
-                    top: 0,
-
-                    behavior: "smooth"
-
-                });
-
+                return;
             }
 
         }
